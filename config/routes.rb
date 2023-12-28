@@ -8,4 +8,23 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  resources :players, only: [:new, :create, :index]
+  resources :teams, only: [:new, :create, :index, :show]
+  resources :tournaments, only: [:create, :show, :index] do
+    post 'seed_teams', on: :member
+    post 'seed_matches', on: :member
+    get 'participation', on: :member
+    post 'participate', on: :member
+  end
+  get "/assign", to: "players#assign", as: :assign
+  post 'assign_team', to: 'players#assign_team'
+  get '/tournaments/:id/result', to: 'tournaments#result', as: 'tournament_result'
+
+  resources :projects, only: [:new, :create, :index, :show] do
+    resources :tasks, only: [:index, :new, :create, :show] do
+      patch :assign_user, on: :member
+      patch :set_status, on: :member
+    end
+  end
 end

@@ -1,0 +1,17 @@
+<div class="d-flex align-items-center py-4 mt-5">
+  <div class="form-signin w-50 m-auto">
+    <h2 style="font-family: 'Krona One'; color: #25316d; font-size: 25px; text-align: center">Assign Players</h2>
+
+    <%= simple_form_for :assignment, url: assign_team_path, method: :post do |f| %>
+      <div class="row">
+        <div class="col">
+          <%= f.input :player_id, collection: @players, label_method: :name, value_method: :id, prompt: 'Select a player' %>
+        </div>
+        <div class="col">
+          <%= f.input :team_id, collection: @teams, label_method: :name, value_method: :id, prompt: 'Select a team' %>
+        </div>
+      </div>
+      <%= f.button :submit, "Assign Player", class: 'btn-dark w-100 py-2 mb-2 mt-2' %>
+    <% end %>
+  </div>
+</div>

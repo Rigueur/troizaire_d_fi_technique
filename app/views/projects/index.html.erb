@@ -1,0 +1,12 @@
+<% @projects.each do |project| %>
+  <p>
+    Name: <%= project.name %><br>
+    Description: <%= project.description %><br>
+    Tasks status (completed/total): <% if project.tasks.empty? %>
+                                      0 / 0
+                                    <% else %>
+                                      <%= project.tasks.where(status: 'done').count %> / <%= project.tasks.count %>
+                                    <% end %>
+    <%= link_to 'Show', project_path(project), class: 'btn btn-dark text-decoration-none text-white' %>
+  </p>
+<% end %>

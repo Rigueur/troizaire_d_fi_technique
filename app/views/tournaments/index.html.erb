@@ -1,0 +1,15 @@
+<div class="container mt-3">
+  <% @tournaments.each do |tournament| %>
+    <p>
+      ID: <%= tournament.id %><br>
+      Winner: <% if tournament.teams.empty?%>
+                No teams have been assigned yet.<br>
+              <% else %>
+                <%= tournament.teams.sort_by { |team| -(team.matches_as_team_a.where(tournament: tournament).sum(:team_a_point) +
+                team.matches_as_team_b.where(tournament: tournament).sum(:team_b_point)) }[0].name %>
+                <br>
+              <% end %>
+      <%= link_to 'Show', tournament_path(tournament), class: 'btn btn-dark text-decoration-none text-white' %>
+    </p>
+  <% end %>
+</div>

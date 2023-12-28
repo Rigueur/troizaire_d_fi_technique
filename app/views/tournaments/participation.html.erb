@@ -1,0 +1,28 @@
+<div class="container mt-3">
+  <div class ="row row-cols-3" data-controller="team-selection">
+    <div class ="col-4">
+      <h3>All Teams</h3>
+      <ul id="all-teams" data-team-selection-target="source">
+        <% @teams.each do |team| %>
+          <li data-id="<%= team.id %>">
+            <%= team.name %>
+            <input type="checkbox" class="team-select">
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class= "m-2 col-2 d-flex flex-column justify-content-center">
+      <button id="assign-team" data-action="team-selection#assign" class ="btn btn-dark text-decoration-none text-white m-1">Assign Team >></button> <br>
+      <button id="remove-team" data-action="team-selection#remove" class ="btn btn-dark text-decoration-none text-white m-1"><< Remove Team</button>
+      <%= form_with url: participate_tournament_path(@tournament), method: :post, id: "participation-form" do |f| %>
+        <%= f.hidden_field :team_ids, id: "team-ids", data: { team_selection_target: "teamIds" } %>
+        <%= f.submit "Submit", data: { team_selection_target: "submit" }, class: "btn btn-dark text-decoration-none text-white m-1" %>
+      <% end %>
+    </div>
+    <div class= "col-4">
+      <h3>Assigned Teams</h3>
+      <ul id="assigned-teams" data-team-selection-target="destination"></ul>
+    </div>
+  </div>
+  <button class="btn btn-dark"><%= link_to "Back", tournament_path(@tournament), class: "text-decoration-none text-white" %></button>
+</div>

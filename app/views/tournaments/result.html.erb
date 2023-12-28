@@ -1,0 +1,29 @@
+<h3 class="text-center">Tournament Results:</h3>
+<table class="table table-bordered text-center">
+  <thead>
+    <tr>
+      <th>Team Name</th>
+      <th>Total Points</th>
+      <th>Total Kills Done</th>
+      <th>Total Kills Received</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @tournament.teams.empty? || @tournament.teams[0].matches.empty? %>
+    <% else %>
+      <% @tournament.teams.sort_by { |team|
+        -(team.matches_as_team_a.where(tournament: @tournament).sum(:team_a_point) +
+          team.matches_as_team_b.where(tournament: @tournament).sum(:team_b_point))
+      }.each do |team| %>
+        <tr>
+          <td><%= team.name %></td>
+          <td><%= team.matches_as_team_a.where(tournament: @tournament).sum(:team_a_point) + team.matches_as_team_b.where(tournament: @tournament).sum(:team_b_point) %></td>
+          <td><%= team.matches_as_team_a.where(tournament: @tournament).sum(:team_a_kill) + team.matches_as_team_b.where(tournament: @tournament).sum(:team_b_kill) %></td>
+          <td><%= team.matches_as_team_a.where(tournament: @tournament).sum(:team_b_kill) + team.matches_as_team_b.where(tournament: @tournament).sum(:team_a_kill) %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<button class="btn btn-dark fixed-button"><%= link_to "Back", tournament_path(@tournament), class: "text-decoration-none text-white" %></button>
