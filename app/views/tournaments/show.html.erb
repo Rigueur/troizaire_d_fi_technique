@@ -1,0 +1,41 @@
+<div class="container mt-3">
+  <div class="d-flex">
+    <%= button_to 'Generate Teams', seed_teams_tournament_path(@tournament), method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-dark text-decoration-none text-white m-1" %>
+    <%= button_to 'Select Teams', participation_tournament_path(@tournament), method: :get, class: "btn btn-dark text-decoration-none text-white m-1"%>
+  </div>
+  <h3>Participating Teams:</h3>
+  <ul>
+    <% if @tournament.teams.empty? %>
+      <li>Empty</li>
+    <%else%>
+      <% @tournament.teams.each do |team| %>
+        <li><%= team.name %>, <%= team.city %></li>
+      <% end %>
+    <% end %>
+  </ul>
+  <%= button_to 'Launch Tournament', seed_matches_tournament_path(@tournament), method: :post, class: "btn btn-dark text-decoration-none text-white m-1" %>
+
+  <h3>Matches:</h3>
+  <ul>
+    <% if @tournament.matches.empty? %>
+      <li>Empty</li>
+    <%else%>
+      <% @tournament.matches.each do |match| %>
+        <li>
+          <% if match.team_a_kill > match.team_b_kill %>
+            <strong><%= match.team_a.name %></strong> (Kills: <%= match.team_a_kill %>) vs
+            <%= match.team_b.name %> (Kills: <%= match.team_b_kill %>)
+          <% elsif match.team_a_kill < match.team_b_kill %>
+            <%= match.team_a.name %> (Kills: <%= match.team_a_kill %>) vs
+            <strong><%= match.team_b.name %></strong> (Kills: <%= match.team_b_kill %>)
+          <% else %>
+            <%= match.team_a.name %> (Kills: <%= match.team_a_kill %>) vs
+            <%= match.team_b.name %> (Kills: <%= match.team_b_kill %>)
+          <% end %>
+        </li>
+      <% end %>
+    <%end%>
+  </ul>
+
+  <%= link_to 'View Results', tournament_result_path(@tournament), class: "btn btn-dark text-decoration-none text-white m-1" %>
+</div>

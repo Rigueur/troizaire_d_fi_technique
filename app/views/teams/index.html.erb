@@ -1,0 +1,7 @@
+<div class="container mt-3">
+  <h3>Teams:</h3>
+  <div data-controller="team">
+    <%= select_tag :team_id, options_from_collection_for_select(@teams, :id, :name), data: { action: "change->team#loadPlayers", target: "team.select" }, class: "form-select w-auto mb-2" %>
+    <div data-target="team.players"></div>
+  </div>
+</div>

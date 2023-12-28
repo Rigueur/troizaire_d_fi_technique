@@ -1,2 +1,32 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container mt-3 pb-3">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">Welcome to the Tournament App</h1>
+      <h3 class="text-center mb-4">Please select an option below</h3>
+      <div class="container d-flex justify-content-around">
+        <button class="btn btn-dark"><%= link_to "View Teams", teams_path, class: "text-decoration-none text-white" %></button>
+        <button class="btn btn-dark"><%= link_to "Create Team", new_team_path, class: "text-decoration-none text-white" %></button>
+        <button class="btn btn-dark"><%= link_to "View Players", players_path, class: "text-decoration-none text-white" %></button>
+        <button class="btn btn-dark"><%= link_to "Create Player", new_player_path, class: "text-decoration-none text-white" %></button>
+        <button class="btn btn-dark"><%= link_to "Assign Players to Team", assign_path, class: "text-decoration-none text-white" %></button>
+      </div>
+      <br>
+      <div class="container d-flex justify-content-around">
+        <button class="btn btn-dark"><%= link_to "View Tournaments", tournaments_path, class: "text-decoration-none text-white" %></button>
+        <%= button_to "Create a Tournament", tournaments_path, method: :post, class: "btn btn-dark text-decoration-none text-white" %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-5 pt-5 border-top">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">This is the bonus part</h1>
+      <h3 class="text-center mb-4">Please select an option below</h3>
+      <div class="container d-flex justify-content-around">
+        <button class="btn btn-dark"><%= link_to "Create Project", new_project_path, class: "text-decoration-none text-white" %></button>
+        <button class="btn btn-dark"><%= link_to "Projects Index", projects_path, class: "text-decoration-none text-white" %></button>
+      </div>
+    </div>
+  </div>
+</div>

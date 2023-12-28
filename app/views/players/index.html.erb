@@ -1,0 +1,10 @@
+<div class="container mt-3">
+  <h3>Players and their Teams:</h3>
+  <ul>
+    <% @players.each do |player| %>
+      <li>
+        <%= player.name %> - <%= player.role%> - <%= player.team ? player.team.name : "No team assigned" %>
+      </li>
+    <% end %>
+  </ul>
+</div>

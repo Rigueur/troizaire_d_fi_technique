@@ -1,0 +1,17 @@
+<div class="d-flex align-items-center py-4 mt-5">
+  <div class="form-signin w-50 m-auto">
+    <h2 style="font-family: 'Krona One'; color: #25316d; font-size: 25px; text-align: center">New Task for project : <%= @project.name %></h2>
+
+    <%= simple_form_for([@project, @task]) do |f| %>
+      <div class="form-input">
+          <%= f.input :name, label: "Name" %>
+          <%= f.input :description, label: "Description" %>
+      </div>
+
+      <div class="form-action">
+        <%= f.button :submit, "Register Task", class: 'btn-dark w-100 py-2 mb-2 mt-2' %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

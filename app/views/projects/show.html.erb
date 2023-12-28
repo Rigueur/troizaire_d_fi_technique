@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="title-container border-bottom text-center m-3">
+    <h1><%=@project.name%></h1>
+    <h5><%=@project.description%></h5>
+  </div>
+  <% if @project.tasks.empty? %>
+    <p>There are no tasks for this project</p>
+  <% else %>
+    <h6>Tasks status (completed/total): <%= @project.tasks.where(status: 'done').count %> / <%= @project.tasks.count %></h6>
+    <div class="d-flex py-1">
+      <%= form_with url: project_path(@project), method: :get do |f| %>
+        <div class="d-flex align-items-center">
+          <p class="m-2">User:</p>
+          <%= f.collection_select :user_id, User.all, :id, :name, {include_blank: true}, class: "form-select w-auto" %>
+          <p class="m-2">Status:</p>
+            <%= f.select :status, ["", "todo", "in progress", "done"], {}, class: "form-select w-auto" %>
+            <%= f.submit "Filter Tasks", class: "btn btn-dark text-decoration-none text-white m-1 ms-2" %>
+        </div>
+      <% end %>
+      <%= button_to "Reset Filter", project_path(@project), method: :get, class: "btn btn-dark text-decoration-none text-white m-1" %>
+    </div>
+    <ul class="list-group">
+      <% @tasks.order(:id).each do |task| %>
+        <div class ="list-group-item">
+          <div class="d-flex align-items-center">
+            <p><%= task.name %> - <%= task.user ? task.user.name : 'Not assigned' %> - <%= task.status %></p>
+            <button class="modify-button btn btn-dark text-decoration-none text-white" style="margin-left: 20px;">Modify</button>
+          </div>
+          <div class="modify-forms" style="display: none;">
+            <%= form_with url: assign_user_project_task_path(@project, task), method: :patch do |f| %>
+              <div class="d-flex align-items-center">
+                <%= f.collection_select :user_id, User.all, :id, :name, {include_blank: true}, class: "form-select w-auto" %>
+                <%= f.submit "Assign User", class: "btn btn-dark text-decoration-none text-white m-1" %>
+              </div>
+            <% end %>
+
+            <%= form_with url: set_status_project_task_path(@project, task), method: :patch do |f| %>
+              <div class="d-flex">
+                <%= f.select :status, ["todo", "in progress", "done"], {}, class: "form-select w-auto" %>
+                <%= f.submit "Set Status", class: "btn btn-dark text-decoration-none text-white m-1" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </ul>
+  <% end %>
+  <%= link_to 'Add Task', new_project_task_path(@project), class: 'btn btn-dark text-decoration-none text-white m-2' %>
+  <%= link_to 'Back', projects_path, class: 'btn btn-dark text-decoration-none text-white m-2' %>
+</div>
+
+<script>
+  document.querySelectorAll('.modify-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      var forms = this.parentElement.nextElementSibling;
+      forms.style.display = forms.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+</script>
